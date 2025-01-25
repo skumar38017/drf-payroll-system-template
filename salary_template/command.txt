@@ -1,0 +1,16 @@
+rm -f salary/migrations/*.py
+rm db.sqlite3
+python manage.py migrate --fake
+python manage.py migrate --fake
+
+
+find . -path "*/__pycache__/*" -delete
+
+
+sqlite3 db.sqlite3 .dump > backup.sql
+find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
+find . -path "*/migrations/*.pyc"  -delete
+rm db.sqlite3
+
+
+python manage.py migrate --fake-initial

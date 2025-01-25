@@ -1,0 +1,235 @@
+{% comment %} salary/templates/salary_form {% endcomment %}
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Slip Submission</title>
+    {% comment %} <link rel="stylesheet" href="{% static 'styles.css' %}"> {% endcomment %}
+</head>
+<body>
+    <!-- Display error or success messages -->
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li class="alert {{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% for field in form %}
+        {% for error in field.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="header">
+        <p>{{ user.name }} @ ({{ user.email }}) <a href="{% url 'logout' %}">Logout</a> </p>
+        <p> <a href="{% url 'salary_slip_list' %}">Salary Slip List</a> </p>
+    </div>
+
+    <form action="{% url 'salary_form' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Watermark Section -->
+        <div class="watermark">
+            <label for="watermark">Watermark Image:</label>
+            <input type="file" name="watermark" id="watermark" accept="image/*">
+            <small>Allowed formats: JPG, PNG, GIF, BMP, SVG. Ensure the image size is appropriate for the document.</small>
+        </div>
+
+        <!-- Salary Slip Header -->
+        <div class="salary-slip">
+            <div class="header">
+                <div class="logo">
+                    <label for="company_logo">Company Logo:</label>
+                    <input type="file" name="company_logo" id="company_logo" accept="image/*">
+                    <small>Allowed formats: JPG, PNG, GIF, BMP, SVG</small>
+                </div>
+
+                <div class="header-center">
+                    <label for="company_name">Company Name:</label>
+                    <input type="text" name="company_name" id="company_name" placeholder="Enter company name">
+
+                    <label for="payslip_month">Payslip Month:</label>
+                    <input type="text" name="payslip_month" id="payslip_month" placeholder="Enter payslip month">
+                </div>
+            </div>
+        </div>
+
+        <!-- Company Info -->
+        <div class="contact-info">
+            <label for="company_name_info">Company Name:</label>
+            <input type="text" name="company_name_info" id="company_name_info" placeholder="Enter company name">
+
+            <label for="company_phone">Company Phone:</label>
+            <input type="text" name="company_phone" id="company_phone" placeholder="Enter company phone">
+
+            <label for="company_email">Company Email:</label>
+            <input type="email" name="company_email" id="company_email" placeholder="Enter company email">
+
+            <label for="company_website">Company Website:</label>
+            <input type="url" name="company_website" id="company_website" placeholder="Enter company website">
+
+            <label for="company_address">Company Address:</label>
+            <input type="text" name="company_address" id="company_address" placeholder="Enter company address">
+        </div>
+
+        <!-- Employee Details -->
+        <div class="details-container">
+            <div class="details">
+                <h3>Employee Details</h3>
+                <table>
+                    <tr>
+                        <th>Employee No:</th>
+                        <td><input type="text" name="employee_no"></td>
+                    </tr>
+                    <tr>
+                        <th>Name:</th>
+                        <td><input type="text" name="employee_name"></td>
+                    </tr>
+                    <tr>
+                        <th>Date of Joining:</th>
+                        <td><input type="date" name="doj"></td>
+                    </tr>
+                    <tr>
+                        <th>Bank Name:</th>
+                        <td><input type="text" name="bank_name"></td>
+                    </tr>
+                    <tr>
+                        <th>Account No.:</th>
+                        <td><input type="text" name="bank_account"></td>
+                    </tr>
+                    <tr>
+                        <th>IFSC Code:</th>
+                        <td><input type="text" name="bank_ifsc"></td>
+                    </tr>
+                    <tr>
+                        <th>UAN No.:</th>
+                        <td><input type="text" name="uan_no"></td>
+                    </tr>
+                    <tr>
+                        <th>PAN No.:</th>
+                        <td><input type="text" name="pan_no"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Salary Summary -->
+            <div class="summary">
+                <h3>Salary Summary</h3>
+                <table>
+                    <tr>
+                        <th>Branch:</th>
+                        <td><input type="text" name="branch"></td>
+                    </tr>
+                    <tr>
+                        <th>Department:</th>
+                        <td><input type="text" name="department"></td>
+                    </tr>
+                    <tr>
+                        <th>Designation:</th>
+                        <td><input type="text" name="designation"></td>
+                    </tr>
+                    <tr>
+                        <th>Total Days:</th>
+                        <td><input type="number" name="total_days"></td>
+                    </tr>
+                    <tr>
+                        <th>LOP:</th>
+                        <td><input type="number" name="lop"></td>
+                    </tr>
+                    <tr>
+                        <th>Work Days:</th>
+                        <td><input type="number" name="work_days"></td>
+                    </tr>
+                    <tr>
+                        <th>Effective Work Days:</th>
+                        <td><input type="number" name="effective_work_days"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Earnings and Deductions -->
+        <div class="earnings-deductions-container">
+            <div class="earnings">
+                <h3>Earnings</h3>
+                <table>
+                    <tr>
+                        <th>Earnings</th>
+                        <th>Amount</th>
+                    </tr>
+                    <tr>
+                        <td>Basic Salary</td>
+                        <td><input type="number" name="basic_salary" value="32000.00"></td>
+                    </tr>
+                    <tr>
+                        <td>HRA</td>
+                        <td><input type="number" name="hra" value="12800.00"></td>
+                    </tr>
+                    <tr>
+                        <td>Special Allowance</td>
+                        <td><input type="number" name="special_allowance" value="16377.60"></td>
+                    </tr>
+                    <tr>
+                        <td>Accommodation Allowance</td>
+                        <td><input type="number" name="accommodation_allowance" value="8422.40"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="deductions">
+                <h3>Deductions</h3>
+                <table>
+                    <tr>
+                        <th>Deductions</th>
+                        <th>Amount</th>
+                    </tr>
+                    <tr>
+                        <td>EPF Employee</td>
+                        <td><input type="number" name="epf_employee" value="3840.00"></td>
+                    </tr>
+                    <tr>
+                        <td>Group Medical Insurance</td>
+                        <td><input type="number" name="gmi" value="327.00"></td>
+                    </tr>
+                    <tr>
+                        <td>Professional Tax</td>
+                        <td><input type="number" name="professional_tax" value="200.00"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Total Summary -->
+        <div class="totals">
+            <h3>Total Summary</h3>
+            <table>
+                <tr>
+                    <th>Total Gross:</th>
+                    <td><input type="number" name="total_gross" value="69600.00"></td>
+                    <th>Total Deduction:</th>
+                    <td><input type="number" name="total_deduction" value="4367.00"></td>
+                </tr>
+                <tr>
+                    <th>Total FBP:</th>
+                    <td><input type="number" name="total_fbp" value="0.00"></td>
+                </tr>
+            </table>
+            <h3>Net Pay: ₹<input type="number" name="net_pay" value="65233.00"></h3>
+            <p>(INR Sixty-Five Thousand Two Hundred Thirty-Three Only)</p>
+        </div>
+
+        <div class="footer">
+            <p>Note: This is a computer-generated salary slip and does not require any signatures.</p>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</body>
+</html>

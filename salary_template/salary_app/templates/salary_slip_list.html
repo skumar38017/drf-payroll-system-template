@@ -1,0 +1,159 @@
+{% comment %}  salary_app/templates/salary_slip_list.html {% endcomment %}
+{% load static %}
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+</head>
+<body>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <!-- Display user details and navigation -->
+    <p>{{ user.get_full_name }} ({{ user.email }}) 
+        <a href="{% url 'logout' %}">Logout</a>
+    </p>
+    <nav>
+        <a href="{% url 'salary_slip' %}">Back</a> | 
+        <a href="{% url 'salary_form' %}">Salary Form</a>
+    </nav>
+
+    <div class="container">
+        <h1>{{ title }}</h1>
+
+        <!-- Display salary slips if available -->
+        {% if salary_slips %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>User name</th>
+                        <th>User email</th>
+                        <th>Employee Name</th>
+                        <th>Company Name</th>
+                        <th>Pay Period</th>
+                        <th>Slip ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for slip in salary_slips %}
+                        <tr>
+                            <td>{{ slip.user.name }}</td>  <!-- User's full name -->
+                            <td>{{ user.email }}</td>  <!-- User's email -->
+                            <td>{{ slip.employee_name }}</td>  <!-- User's employee name -->
+                            <td>{{ slip.company_name }}</td>  <!-- Assuming you have this field in SalarySlip model -->
+                            <td>{{ slip.payslip_month }}</td>  <!-- Pay period -->
+                            <td>{{ slip.slip_id }}</td>
+                            <td>
+                                <a href="{% url 'salary_slip' slip.slip_id %}">View</a> |
+                                <a href="{% url 'download_salary_slip_pdf' slip.slip_id %}">Download PDF</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Pagination controls -->
+            <div class="pagination">
+                {% if salary_slips.has_previous %}
+                    <a href="?page={{ salary_slips.previous_page_number }}">Previous</a>
+                {% endif %}
+                <span>Page {{ salary_slips.number }} of {{ salary_slips.paginator.num_pages }}</span>
+                {% if salary_slips.has_next %}
+                    <a href="?page={{ salary_slips.next_page_number }}">Next</a>
+                {% endif %}
+            </div>
+        {% else %}
+            <p>No salary slips found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+</head>
+<body>
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+
+    <!-- Display user details and navigation -->
+    <p>{{ user.get_full_name }} ({{ user.email }}) 
+        <a href="{% url 'logout' %}">Logout</a>
+    </p>
+    <nav>
+        <a href="{% url 'salary_slip' %}">Back</a> | 
+        <a href="{% url 'salary_form' %}">Salary Form</a>
+    </nav>
+    
+    <div class="container">
+        <h1>{{ title }}</h1>
+
+        <!-- Display salary slips if available -->
+        {% if salary_slips %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Slip ID</th>
+                        <th>Employee Name</th>
+                        <th>Pay Period</th>
+                        <th>Generated At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for slip in salary_slips %}
+                        <tr>
+                            <td>{{ slip.slip_id }}</td>
+                            <td>{{ slip.user.employee_name }}</td>  <!-- User's full name -->
+                            <td>{{ slip.payslip_month }}</td>
+                            <td>{{ slip.generated_at|date:"M. d, Y, h:i A" }}</td>
+                            <td>
+                                <a href="{% url 'salary_slip' slip.slip_id %}">View</a> |
+                                <a href="{% url 'download_salary_slip_pdf' slip.slip_id %}">Download PDF</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Pagination controls -->
+            <div class="pagination">
+                {% if salary_slips.has_previous %}
+                    <a href="?page={{ salary_slips.previous_page_number }}">Previous</a>
+                {% endif %}
+                <span>Page {{ salary_slips.number }} of {{ salary_slips.paginator.num_pages }}</span>
+                {% if salary_slips.has_next %}
+                    <a href="?page={{ salary_slips.next_page_number }}">Next</a>
+                {% endif %}
+            </div>
+        {% else %}
+            <p>No salary slips found.</p>
+        {% endif %}
+    </div>
+</body>
+</html> {% endcomment %}
