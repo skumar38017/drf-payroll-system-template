@@ -9,7 +9,7 @@
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>{{ Title }}</title>
-          <link rel="stylesheet" href="{% static 'styles.css' %}">
+          <link rel="stylesheet" href="{% static 'salary_slip_view.css' %}">
       </head>
       <body>
         <!-- Display error or success messages -->
@@ -27,8 +27,6 @@
                 {% endfor %}
             </div>
         {% endif %}
-            <p>{{ user.name }} @ ({{ user.email }})  <a href="{% url 'salary_form' %}">salary_form</a> <a href="{% url 'logout' %}">Logout</a></p>
-          
             <div class="salary-slip">
               <div class="header">
                 <div class="logo">
@@ -41,14 +39,13 @@
 
                   <div class="header-center">
                       <h1>{{ COMPANY_NAME }}</h1>
-                      <p>Payslip - {{ PAYSLIP }}</p>
+                      <p>Payslip - {{ payslip_month }}</p>
                   </div>
               </div>
               <div class="contact-info">
                   <p>{{ COMPANY_NAME }}</p>
+                  <p>{{ COMPANY_EMAIL }} |<a href="{{ COMPANY_WEBSITE }}" target="_blank">{{ COMPANY_WEBSITE }}</a></p>
                   <p>{{ COMPANY_PHONE }}</p>
-                  <p>{{ COMPANY_EMAIL }}</p>
-                  <p><a href="{{ COMPANY_WEBSITE }}" target="_blank">{{ COMPANY_WEBSITE }}</a></p>
                   <p>{{ COMPANY_ADDRESS }}</p>
               </div>
               
@@ -125,6 +122,10 @@
                   <p>Note: This is a computer-generated salary slip and does not require any signatures.</p>
               </div>
           </div>
+          <p>{{ user.name }} @ ({{ user.email }})  |  <a href="{% url 'logout' %}">Logout</a></p>
+            <nav>
+                <a href="{% url 'salary_slip_list' %}">Back</a> | <a href="{% url 'salary_form' %}">salary_form</a>
+            </nav>
       </body>
       </html>
       

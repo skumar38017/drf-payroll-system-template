@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
     {% if error %}
@@ -15,11 +16,8 @@
     {% endif %}
 
     <!-- Display user details and navigation -->
-    <p>{{ user.get_full_name }} ({{ user.email }}) 
-        <a href="{% url 'logout' %}">Logout</a>
-    </p>
+    <p>{{ user.get_full_name }} ({{ user.email }}) | <a href="{% url 'logout' %}">Logout</a> </p>
     <nav>
-        <a href="{% url 'salary_slip' %}">Back</a> | 
         <a href="{% url 'salary_form' %}">Salary Form</a>
     </nav>
 
@@ -37,19 +35,21 @@
                         <th>Company Name</th>
                         <th>Pay Period</th>
                         <th>Slip ID</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for slip in salary_slips %}
                         <tr>
-                            <td>{{ slip.user.name }}</td>  <!-- User's full name -->
+                            <td>{{ user.name }}</td>  <!-- User's full name -->
                             <td>{{ user.email }}</td>  <!-- User's email -->
                             <td>{{ slip.employee_name }}</td>  <!-- User's employee name -->
                             <td>{{ slip.company_name }}</td>  <!-- Assuming you have this field in SalarySlip model -->
                             <td>{{ slip.payslip_month }}</td>  <!-- Pay period -->
-                            <td>{{ slip.slip_id }}</td>
                             <td>
-                                <a href="{% url 'salary_slip' slip.slip_id %}">View</a> |
+                                <a href="{% url 'salary_slip_view' slip.slip_id %}">View</a> 
+                            </td>
+                            <td>
                                 <a href="{% url 'download_salary_slip_pdf' slip.slip_id %}">Download PDF</a>
                             </td>
                         </tr>

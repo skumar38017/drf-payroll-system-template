@@ -29,22 +29,23 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     serializer_class = EmployeeSerializer
 
 # View for rendering the salary_slip.html template
-class SalarySlipView(LoginRequiredMixin, View):
+class UserSalarySlipView(LoginRequiredMixin, View):
     login_url = '/login/'  # Redirect URL for unauthenticated users
 
-    def get(self, request):
-        # Try to get the salary slip for the logged-in user
+    def get(self, request, slip_id):
+        # Get the salary slip for the current user and matching slip_id
         try:
-            salary_slip = SalarySlip.objects.get(user=request.user)
+            salary_slip = SalarySlip.objects.get(slip_id=slip_id, user=request.user)
         except SalarySlip.DoesNotExist:
-            raise Http404("No SalarySlip matches the given query")
+            raise Http404("No SalarySlip matches the given query or you do not have access.")
+
 
         # Prepare the context to pass to the template
         context = {
             'WATERMARK': salary_slip.watermark.url if salary_slip.watermark else None,
             'COMPANY_LOGO': salary_slip.company_logo.url if salary_slip.company_logo else None,
             'COMPANY_NAME': salary_slip.company_name,
-            'PAYSLIP': salary_slip.payslip_number,
+            'PAYSLIP': salary_slip.payslip_month,
             'COMPANY_PHONE': salary_slip.company_phone,
             'COMPANY_EMAIL': salary_slip.company_email,
             'COMPANY_WEBSITE': salary_slip.company_website,

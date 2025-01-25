@@ -3,7 +3,7 @@
 
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from salary_app.views import EmployeeViewSet, SalarySlipView, generate_salary_slip_pdf, SalarySlipListView
+from salary_app.views import EmployeeViewSet, UserSalarySlipView, generate_salary_slip_pdf, SalarySlipListView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -13,9 +13,9 @@ router.register(r'employees', EmployeeViewSet)
 
 # Define the URL patterns
 urlpatterns = [
-    path('salary_slip/', SalarySlipView.as_view(), name='salary_slip'), # Path for rendering the salary slip page
+    path('salary_slip_view/<str:slip_id>/', UserSalarySlipView.as_view(), name='salary_slip_view'), # Path for rendering the salary slip page
     path('employees/', include(router.urls)),  # API for employees
-    path('download_salary_slip_pdf/<int:slip_id>/', generate_salary_slip_pdf.as_view(), name='download_pdf'),
+    path('download_salary_slip_pdf/<str:slip_id>/', generate_salary_slip_pdf.as_view(), name='download_salary_slip_pdf'),
     path('salary_slip_list/', SalarySlipListView.as_view(), name='salary_slip_list'), # Path for listing salary slips
 ]
 # Serve static files in development

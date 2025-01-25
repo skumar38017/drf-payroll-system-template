@@ -5,7 +5,7 @@
 
 .details-container .watermark {
     position: absolute; /* Overlay the watermark */
-    top: 10%; /* Shift the watermark 10% from the top */
+    top: -50%; /* Shift the watermark 10% from the top */
     left: 50%; /* Center horizontally */
     transform: translateX(-50%); /* Only center horizontally, no vertical adjustment */
     width: 80%; /* Adjust size if needed */
@@ -66,14 +66,14 @@ body {
 
 .contact-info {
     text-align: right;
-    font-size: 18px;
+    font-size: 12px;
     margin-top: 0px; /* Add spacing below the header-center */
     clear: both; /* Ensure it appears below other content */
     width: 100%; /* Ensure it spans the full width */
 }
 
 .contact-info p {
-    margin: 1px 0;
+    margin: 0px 0;
     text-align: right; /* Align text to the right */
 }
 
