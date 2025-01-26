@@ -141,7 +141,7 @@ class SalarySlip(models.Model):
 
     def __str__(self):
         return (
-            f"Salary Slip for {self.user.email} - {self.slip_id} ({self.payslip_month or 'No Payslip month'})\n"
+            f"Salary Slip for {self.user.email} - {self.slip_id} ({self.payslip_month or 'No Payslip'})\n"
             f"Company: {self.company_name}\n"
             f"Employee: {self.employee_name} (Employee No: {self.employee_no})\n"
             f"Designation: {self.designation}\n"
